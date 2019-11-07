@@ -48,7 +48,7 @@ def login():
 
         if user is None:
             error = "Incorrect username"
-        elif not check_password_hash(user['password'], password)
+        elif not check_password_hash(user['password'], password):
             error = 'Incorrect Password'
         
         if error is None:
@@ -57,6 +57,7 @@ def login():
             return redirect(url_for('index'))
         flash(error)
     return render_template('auth/register.html')
+
 
 @bp.before_app_request
 def load_logged_in_user():
@@ -71,10 +72,12 @@ def load_logged_in_user():
             (user_id)
         ).fetchone()
 
+
 @bp.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('index'))
+
 
 def login_required(view):
     @functools.wraps(view)
